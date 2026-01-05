@@ -17,4 +17,8 @@ RUN pip3 install --upgrade pip && pip3 install --no-cache-dir -r requirements.tx
 
 COPY . .
 
-ENTRYPOINT ["python3", "-u", "southwest.py"]
+# Default to the United check-in workflow so running the container with two
+# arguments (confirmation number and last name) performs a United check-in.
+# Southwest users can still override the entrypoint at runtime, e.g.:
+#   docker run -d --entrypoint python3 kylewhirl/auto-united-check-in southwest.py ABC123 FIRST LAST
+ENTRYPOINT ["python3", "-u", "united.py"]

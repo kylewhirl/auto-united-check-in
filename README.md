@@ -1,7 +1,7 @@
-## Auto-Southwest Check-In
-A Python script that automatically checks you in to your Southwest flight. Additionally,
-the script can notify you if the price of your flight drops before departure
-(see [Check Fares](CONFIGURATION.md#check-fares)).
+## Auto-United Check-In
+A Python script that automatically opens United's check-in page and submits your
+confirmation details. This fork retains the original Southwest automation code
+but adds a lightweight United workflow using SeleniumBase.
 
 This script can also log in to your Southwest account and automatically schedule check-ins as
 flights are scheduled.
@@ -58,6 +58,11 @@ To schedule a check-in, run the following command:
 ```shell
 python3 southwest.py CONFIRMATION_NUMBER FIRST_NAME LAST_NAME
 ```
+To look up your United trip and schedule check-ins 24 hours before departure
+automatically (submitting immediately if the window is already open), use:
+```shell
+python3 united.py CONFIRMATION_NUMBER LAST_NAME
+```
 Alternatively, you can log in to your account, which will automatically check you in to all of your flights
 ```shell
 python3 southwest.py USERNAME PASSWORD
@@ -74,15 +79,25 @@ If you want the latest features of the script, you can use the `develop` branch 
 can be viewed in the Changelog). However, keep in mind that changes to this branch do not ensure reliability.
 
 ### Running in Docker
-The application can also be run in a container using [Docker]. The Docker repository for this project
-can be found [here][Docker repository]. To pull the latest image, run:
+The application can also be run in a container using [Docker].
+
+#### United
+To run the United workflow, use the United-focused Docker image and supply the
+confirmation number and last name:
+```shell
+docker run -d kylewhirl/auto-united-check-in ABC123 LASTNAME
+```
+
+#### Southwest
+The Southwest Docker repository for the original project can be found [here][Docker repository].
+To pull the latest Southwest image, run:
 ```shell
 docker pull jdholtz/auto-southwest-check-in
 ```
 To download a specific version, append `:vX.X` to the end of the image name. You can also append the
 `:develop` tag instead to use the latest development version.
 
-To run the image, you can use a command such as:
+To run the Southwest image, you can use a command such as:
 ```shell
 docker run -d jdholtz/auto-southwest-check-in CONFIRMATION_NUMBER FIRST_NAME LAST_NAME
 ```
